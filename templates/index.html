@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Streaming Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="left-column">
+            <img src="{{ url_for('static', filename='img/yci.jpg') }}" alt="Navigation Icon">
+        </div>
+        <div class="vertical-band">
+            <div class="band-content">
+            </div>
+        </div>
+        <div class="middle-column">
+            <!-- Video stream will be displayed here -->
+            <img src="{{ url_for('video') }}" alt="Live Stream">
+        </div>
+        <div class="right-column">
+            <!-- Detection result will be displayed here -->
+            <!-- For now, just a placeholder -->
+            <h2>Detection Result</h2>
+            <br>
+            <p>This is where the detection result will be displayed.</p>
+        </div>
+    </div>
+</body>
+</html>
