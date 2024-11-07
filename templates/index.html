@@ -4,28 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Streaming Dashboard</title>
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts/three.min.js') }}"></script>
+    <script src="https://unpkg.com/@google/model-viewer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 </head>
 <body>
-    <div class="container">
+
+    <div class="header">
+    <img src="static/img/yci.jpg" alt="Logo" style="width: 50px; height: 50px; margin: 10px;">
+    <h1 style="color:white;"> Road Defection Detection System </h1>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
         <div class="left-column">
-            <img src="{{ url_for('static', filename='img/yci.jpg') }}" alt="Navigation Icon">
-        </div>
-        <div class="vertical-band">
-            <div class="band-content">
-            </div>
-        </div>
-        <div class="middle-column">
-            <!-- Video stream will be displayed here -->
-            <img src="{{ url_for('video') }}" alt="Live Stream">
-        </div>
-        <div class="right-column">
-            <!-- Detection result will be displayed here -->
-            <!-- For now, just a placeholder -->
-            <h2>Detection Result</h2>
+            <!-- left column content here -->
+            <!-- Live Streaming Dashboard will be here -->
+            <h2>Live Streaming Dashboard</h2>
+            <img src="{{ url_for('video') }}" alt="Live Stream" width="80%">
             <br>
-            <p>This is where the detection result will be displayed.</p>
+            <h3>Data Logging</h3>
+            <div id="data-logging">
+                    <!-- data logging content here -->
+            </div>
+
+            <div id="score" style="display: none;">
+                <p>Confidence level: <span id="score-value"></span></p>
+                <p>Bounding Box Areas: <span id="bounding_box_areas"></span></p>
+                <p>GPS: (<span id="lat-value"></span>, <span id="lng-value"></span>)</p>
+            </div>
+
+
+        </div>
+
+        <div class="right-column">
+            <!-- right column content here -->
+            <!-- Detection Result will be here -->
+            <h2>Detection Result</h2>
+            <!-- This is where the detection result will be displayed -->
+            <h2>Road Twin</h2>
+
+            <img src="static/img/roadSim.png" alt="Detection Result" style="height: 250px;">
+
+            <br>
+            <h2>GPS Location</h2>
+
+            <img src="static/img/map.png" alt="Detection Result" style="height: 300px;">
+
+
         </div>
     </div>
+
+
+    <script>
+        setInterval(function() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.score > 0.1) {
+                        document.getElementById('score').style.display = 'block';
+                        document.getElementById('score-value').innerText = data.score;
+                        document.getElementById('lat-value').innerText = data.lat;
+                        document.getElementById('lng-value').innerText = data.lng;
+                        document.getElementById('bounding_box_areas').innerText = data.bounding_box_areas;
+                    } else {
+                        document.getElementById('score').style.display = 'none';
+                    }
+                });
+        }, 100);
+
+    </script>
+
+
+
+
 </body>
 </html>
